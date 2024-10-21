@@ -1,3 +1,6 @@
+
+
+// export default ResumeTemplate;
 import { PhoneIcon } from "@chakra-ui/icons";
 import {
   Text,
@@ -15,11 +18,12 @@ import {
 import React from "react";
 import ReactToPrint from "react-to-print";
 
-const ResumeTemplate = (props) => {
-  const { resumeInfo, page } = props;
 
+const ResumeTemplate = (props) => {
+  const { resumeInfo, page} = props;
   const ref = React.useRef(null);
 
+  
   return (
     <>
       <Stack spacing={4} ref={ref} m={6} fontFamily="sans-serif">
@@ -37,12 +41,11 @@ const ResumeTemplate = (props) => {
             >
               {resumeInfo.profile.email.length ? (
                 <Link
-                  href={resumeInfo.profile.email}
+                  href={`mailto:${resumeInfo.profile.email}`}
                   isExternal
                   color="blue.500"
                 >
-                  {" "}
-                  {resumeInfo.profile.email}{" "}
+                  {resumeInfo.profile.email}
                 </Link>
               ) : null}
               {resumeInfo.profile.linkedin.length ? (
@@ -51,8 +54,7 @@ const ResumeTemplate = (props) => {
                   isExternal
                   color="blue.500"
                 >
-                  {" "}
-                  Linkedin{" "}
+                  Linkedin
                 </Link>
               ) : null}
               {resumeInfo.profile.github.length ? (
@@ -61,8 +63,7 @@ const ResumeTemplate = (props) => {
                   isExternal
                   color="blue.500"
                 >
-                  {" "}
-                  Github{" "}
+                  Github
                 </Link>
               ) : null}
               {resumeInfo.profile.website.length ? (
@@ -71,8 +72,7 @@ const ResumeTemplate = (props) => {
                   isExternal
                   color="blue.500"
                 >
-                  {" "}
-                  Portfolio{" "}
+                  Portfolio
                 </Link>
               ) : null}
             </HStack>
@@ -88,24 +88,24 @@ const ResumeTemplate = (props) => {
           <Heading as="h3" fontSize="xl" borderBottomWidth="1px">
             SUMMARY
           </Heading>
-          <Text>{resumeInfo.professional.summary}</Text>
+          <Text>{resumeInfo.competence.summary}</Text>
         </VStack>
         <VStack spacing={4} align="stretch">
           <Heading as="h3" fontSize="xl" borderBottomWidth="1px">
             SKILLS
           </Heading>
           <UnorderedList px="20px">
-            {resumeInfo.professional.skills.split("\n").map((s, i) => (
+            {resumeInfo.competence.skills.split("\n").map((s, i) => (
               <ListItem key={i}>{s.trim()}</ListItem>
             ))}
           </UnorderedList>
         </VStack>
-        {resumeInfo.professional.work.length ? (
+        {resumeInfo.work.length ? (
           <VStack spacing={4} align="stretch">
             <Heading as="h3" fontSize="xl" borderBottomWidth="1px">
               WORK EXPERIENCE
             </Heading>
-            {resumeInfo.professional.work.map((w, i) => {
+            {resumeInfo.work.map((w, i) => {
               return (
                 <VStack align="stretch" key={i}>
                   <HStack justify="space-between" align="baseline">
@@ -153,32 +153,14 @@ const ResumeTemplate = (props) => {
             );
           })}
         </VStack>
-        {resumeInfo.certification.length ? (
-          <VStack spacing={4} align="stretch">
-            <Heading as="h3" fontSize="xl" borderBottomWidth="1px">
-              CERTIFICATIONS
-            </Heading>
-            {resumeInfo.certification.map((c, i) => {
-              return (
-                <VStack align="stretch" key={i}>
-                  <Heading as="h5" fontSize="lg">
-                    {c.link}
-                  </Heading>
-                  <Text>{c.details}</Text>
-                </VStack>
-              );
-            })}
-          </VStack>
-        ) : null}
+  
       </Stack>
       <HStack divider={<StackDivider />} pt="24px">
         <Button
           w="max-content"
           colorScheme="blue"
           isDisabled={page !== 3}
-          onClick={() => {
-            window.location.reload();
-          }}
+          onClick={() => window.location.reload()}
         >
           Create New
         </Button>
@@ -190,7 +172,7 @@ const ResumeTemplate = (props) => {
                 w="max-content"
                 isDisabled={page !== 3}
               >
-                Print this out!
+                Download PDF
               </Button>
             )}
             content={() => ref.current}
